@@ -275,6 +275,7 @@ public class MyUtils {
         MyUtils.showToast(context,"网络连接异常");
         return false;*/
     }
+
     //光标居右
     public static void setCusorToRight(EditText editText){
         editText.setSelection(editText.getText().toString().length());
