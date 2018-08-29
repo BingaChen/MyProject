@@ -1,5 +1,7 @@
 package com.cqf.fenglib;
 
+import com.cqf.fenglib.utils.MyUtils;
+
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -11,7 +13,8 @@ import static org.junit.Assert.*;
  */
 public class ExampleUnitTest {
     @Test
-    public void addition_isCorrect() throws Exception {
-        assertEquals(4, 2 + 2);
+    public void fun(){
+        String newChar= MyUtils.replaceChar("17858805466","****",3,7);
+        System.out.print(newChar);
     }
 }

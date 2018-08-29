@@ -23,6 +23,7 @@ import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
@@ -62,37 +63,42 @@ public class MyUtils {
 
     private static final int BUFFER_SIZE = 1024 * 1024;//1M Byte
     private final static Pattern emailer = Pattern.compile("\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*");
-    private static boolean isShow=false;
+    private static boolean isShow = false;
+
     //吐司
-    public static void showToast(Context context, String msg){
-        Toast.makeText(context,msg,Toast.LENGTH_SHORT).show();
+    public static void showToast(Context context, String msg) {
+        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
     }
+
     //打印长日志
-    public static void showLargeLog(String tag,String content){
-        if (content.length()>4000){
-            String show=content.substring(0,4000);
-            Log.v(tag,show);
-            if (content.length()-4000>4000){
-                String partLog=content.substring(4000,content.length());
-                showLargeLog(tag,partLog);
-            }else {
-                String partLog=content.substring(4000,content.length());
-                showLargeLog(tag,partLog);
+    public static void showLargeLog(String tag, String content) {
+        if (content.length() > 4000) {
+            String show = content.substring(0, 4000);
+            Log.v(tag, show);
+            if (content.length() - 4000 > 4000) {
+                String partLog = content.substring(4000, content.length());
+                showLargeLog(tag, partLog);
+            } else {
+                String partLog = content.substring(4000, content.length());
+                showLargeLog(tag, partLog);
             }
-        }else {
-            Log.v(tag,content);
+        } else {
+            Log.v(tag, content);
         }
     }
+
     //px转换成dp
     public static int px2dp(Context context, float pxValue) {
         float scale = context.getResources().getDisplayMetrics().density;
         return (int) (pxValue / scale + 0.5f);
     }
+
     //dp转换成px
     public static int dp2px(Context context, float dpValue) {
         float scale = context.getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
     }
+
     //解压缩一个文件 zipFile    压缩文件 folderPath 解压缩的目标目录
     public static boolean upZipFile(File zipFile, String folderPath) throws IOException {
         File desDir = new File(folderPath);
@@ -128,13 +134,14 @@ public class MyUtils {
         }
         return true;
     }
+
     //获取版本号
     public static int getVersionCode(Context context) {
         int versionCode = 0;
 
         //拿到管理类之类这样的代码
-		/*
-		 * SMSManager.getDefaul()
+        /*
+         * SMSManager.getDefaul()
 		 * windowManager 可以拿到和屏幕相关的信息
 		 * TelephoneManager 电话相关的
 		 * NotificationManager 拿到和通知相关的
@@ -155,6 +162,7 @@ public class MyUtils {
         }
         return versionCode;
     }
+
     //获取版本名称
     public static String getVersionName(Context context) {
         String versionName = null;
@@ -175,6 +183,7 @@ public class MyUtils {
         }
         return versionName;
     }
+
     //验证手机格式
     public static boolean isPhoneNum(String mobiles) {
         String telRegex = "[1][1345678]\\d{9}";//"[1]"代表第1位为数字1，"[358]"代表第二位可以为3、5、8中的一个，"\\d{9}"代表后面是可以是0～9的数字，有9位。
@@ -185,14 +194,15 @@ public class MyUtils {
         }
     }
 
-    public static boolean isPwd(String pwd){
-        String pwdRegex="^(?![\\d]+$)(?![a-zA-Z]+$)(?![^\\da-zA-Z]+$).{6,20}$";
+    public static boolean isPwd(String pwd) {
+        String pwdRegex = "^(?![\\d]+$)(?![a-zA-Z]+$)(?![^\\da-zA-Z]+$).{6,20}$";
         if (isEmpty(pwd)) {
             return false;
         } else {
             return pwd.matches(pwdRegex);
         }
     }
+
     /*public static void setWheelStyle(WheelView wheelView){
         wheelView.setWheelSize(3);
         wheelView.setWheelAdapter(new com.wx.wheelview.adapter.ArrayWheelAdapter(wheelView.getContext()));
@@ -203,7 +213,7 @@ public class MyUtils {
         wheelView.setStyle(style);
     }*/
     //验证手机并弹吐司
-    public static boolean checkPhone(Context context,String phoneNum) {
+    public static boolean checkPhone(Context context, String phoneNum) {
         if (TextUtils.isEmpty(phoneNum)) {
             MyUtils.showToast(context, "手机号不能为空");
         } else if (!MyUtils.isPhoneNum(phoneNum)) {
@@ -213,12 +223,14 @@ public class MyUtils {
         }
         return false;
     }
+
     //判断是不是一个合法的电子邮件地址
     public static boolean isEmail(String email) {
         if (email == null || email.trim().length() == 0)
             return false;
         return emailer.matcher(email).matches();
     }
+
     //判断是否有网络连接
     public static boolean isNetworkConnected(Context context) {
         if (context != null) {
@@ -232,6 +244,7 @@ public class MyUtils {
         }
         return false;
     }
+
     //判断是否有网络连接
     public static boolean checkNetWithToast(Context context) {
         if (context != null) {
@@ -241,12 +254,12 @@ public class MyUtils {
             NetworkInfo networkInfo = manager.getActiveNetworkInfo();
             //判断NetworkInfo对象是否为空
             if (networkInfo != null)
-                if (!networkInfo.isAvailable()){
-                    MyUtils.showToast(context,"网络连接异常");
+                if (!networkInfo.isAvailable()) {
+                    MyUtils.showToast(context, "网络连接异常");
                     return networkInfo.isAvailable();
                 }
         }
-        MyUtils.showToast(context,"网络连接异常");
+        MyUtils.showToast(context, "网络连接异常");
         return false;
         /*ConnectivityManager connectivityManager = (ConnectivityManager) YcWater.YcContext.getSystemService(Context.CONNECTIVITY_SERVICE);
         //新版本调用方法获取网络状态
@@ -279,19 +292,20 @@ public class MyUtils {
     }
 
     //光标居右
-    public static void setCusorToRight(EditText editText){
+    public static void setCusorToRight(EditText editText) {
         editText.setSelection(editText.getText().toString().length());
     }
+
     //密码明文模式监听
-    public static void setPwdListener(final EditText editText, final ImageView view, final int showId, final int hideId){
+    public static void setPwdListener(final EditText editText, final ImageView view, final int showId, final int hideId) {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                isShow=(isShow?false:true);
-                if (!isShow){
+                isShow = (isShow ? false : true);
+                if (!isShow) {
                     view.setImageResource(showId);
                     editText.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                }else {
+                } else {
                     view.setImageResource(hideId);
                     editText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                 }
@@ -299,6 +313,7 @@ public class MyUtils {
             }
         });
     }
+
     /**
      * Android5.1以上的处理
      */
@@ -322,9 +337,11 @@ public class MyUtils {
             ViewCompat.requestApplyInsets(mChildView);
         }
     }
-    public static void showMyLog(String msg){
-        Log.v("YcWater",msg);
+
+    public static void showMyLog(String msg) {
+        Log.v("YcWater", msg);
     }
+
     //启动相册
     public static void startPhoto(Activity activity) {
 
@@ -343,6 +360,7 @@ public class MyUtils {
             activity.startActivityForResult(intent, 1);
         }
     }
+
     //启动相机
     public static void startCamera(Activity activity) {
         File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM) +
@@ -356,21 +374,22 @@ public class MyUtils {
             activity.startActivityForResult(intent, 3);
         }
     }
-    public static String getRealFilePath( final Context context, final Uri uri ) {
-        if ( null == uri ) return null;
+
+    public static String getRealFilePath(final Context context, final Uri uri) {
+        if (null == uri) return null;
         final String scheme = uri.getScheme();
         String data = null;
-        if ( scheme == null )
+        if (scheme == null)
             data = uri.getPath();
-        else if ( ContentResolver.SCHEME_FILE.equals( scheme ) ) {
+        else if (ContentResolver.SCHEME_FILE.equals(scheme)) {
             data = uri.getPath();
-        } else if ( ContentResolver.SCHEME_CONTENT.equals( scheme ) ) {
-            Cursor cursor = context.getContentResolver().query( uri, new String[] { MediaStore.Images.ImageColumns.DATA }, null, null, null );
-            if ( null != cursor ) {
-                if ( cursor.moveToFirst() ) {
-                    int index = cursor.getColumnIndex( MediaStore.Images.ImageColumns.DATA );
-                    if ( index > -1 ) {
-                        data = cursor.getString( index );
+        } else if (ContentResolver.SCHEME_CONTENT.equals(scheme)) {
+            Cursor cursor = context.getContentResolver().query(uri, new String[]{MediaStore.Images.ImageColumns.DATA}, null, null, null);
+            if (null != cursor) {
+                if (cursor.moveToFirst()) {
+                    int index = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+                    if (index > -1) {
+                        data = cursor.getString(index);
                     }
                 }
                 cursor.close();
@@ -378,6 +397,7 @@ public class MyUtils {
         }
         return data;
     }
+
     /**
      * 根据图片的Uri获取图片的绝对路径(适配多种API)
      *
@@ -389,6 +409,7 @@ public class MyUtils {
         if (sdkVersion < 19) return getRealPathFromUri_Api11To18(context, uri);
         else return getRealPathFromUri_AboveApi19(context, uri);
     }
+
     /**
      * 适配api19以上,根据uri获取图片的绝对路径
      */
@@ -420,6 +441,7 @@ public class MyUtils {
         cursor.close();
         return filePath;
     }
+
     /**
      * 适配api11-api18,根据uri获取图片的绝对路径
      */
@@ -451,13 +473,15 @@ public class MyUtils {
         }
         return filePath;
     }
-    public static void hideSoftInput(View view,Context context){
-        InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
-        boolean isOpen=imm.isActive();//isOpen若返回true，则表示输入法打开
-        if (isOpen){
+
+    public static void hideSoftInput(View view, Context context) {
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        boolean isOpen = imm.isActive();//isOpen若返回true，则表示输入法打开
+        if (isOpen) {
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
+
     public static double divde(double value1, double value2, int scale) throws IllegalAccessException {
         //如果精确范围小于0，抛出异常信息
         if (scale < 0) {
@@ -468,13 +492,16 @@ public class MyUtils {
         //默认保留两位会有错误，这里设置保留小数点后4位
         return b1.divide(b2, scale, BigDecimal.ROUND_HALF_UP).doubleValue();
     }
-    public static String getCurrentYMD(){
+
+    public static String getCurrentYMD() {
         return new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(new Date());
     }
-    public static String getCurrentYMDHMS(){
+
+    public static String getCurrentYMDHMS() {
         return new SimpleDateFormat("yyyyMMddHHmmssSSS", Locale.CHINA).format(new Date());
     }
-    public static String getPreviousMonthYMD(){
+
+    public static String getPreviousMonthYMD() {
         //获取当前日期
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date today = new Date();
@@ -487,34 +514,60 @@ public class MyUtils {
         String startDate = sdf.format(start);//三十天之前日期
         return startDate;
     }
+
     //判断是手机还是平板
     public static boolean isPad(Context context) {
         return (context.getResources().getConfiguration().screenLayout
                 & Configuration.SCREENLAYOUT_SIZE_MASK)
                 >= Configuration.SCREENLAYOUT_SIZE_LARGE;
     }
+
     //获取设备唯一号
     public static String getMacAddress(Context context) {
 
-        String macAddress =null;
+        String macAddress = null;
         WifiManager wifiManager =
                 (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-        WifiInfo info = (null== wifiManager ?null: wifiManager.getConnectionInfo());
+        WifiInfo info = (null == wifiManager ? null : wifiManager.getConnectionInfo());
 
-        if(!wifiManager.isWifiEnabled())
-        {
+        if (!wifiManager.isWifiEnabled()) {
             //必须先打开，才能获取到MAC地址
             wifiManager.setWifiEnabled(true);
             wifiManager.setWifiEnabled(false);
         }
-        if(null!= info) {
+        if (null != info) {
             macAddress = info.getMacAddress();
         }
         return macAddress;
     }
+
     //请求权限，一次请求多个
-    public static void requestPermission(Activity activity,String[] permissions,int requestCode) {
-        ActivityCompat.requestPermissions(activity, permissions,requestCode);
+    public static void requestPermission(Activity activity, String[] permissions, int requestCode) {
+        for (int i = 0; i < permissions.length; i++) {
+            if (ContextCompat.checkSelfPermission(activity,
+                    permissions[i]) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(activity, permissions, requestCode);
+                break;
+            }
+        }
         //需要通过onRequestPermissionsResult处理回调操作
+        /*@Override
+        public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+            if (requestCode == 1) {
+                for (int i = 0; i < permissions.length; i++) {
+                    if (grantResults[i] == PERMISSION_GRANTED) {
+                        Toast.makeText(this, "" + "权限" + permissions[i] + "申请成功", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, "" + "权限" + permissions[i] + "申请失败", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        }*/
     }
+    public static String replaceChar(String oldStr,String replace,int start,int end){
+        return oldStr.replace(oldStr.substring(start,end),replace);
+    }
+
 }
