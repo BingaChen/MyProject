@@ -38,6 +38,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.cqf.fenglib.Config;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -339,7 +341,7 @@ public class MyUtils {
     }
 
     public static void showMyLog(String msg) {
-        Log.v("YcWater", msg);
+        Log.v(Config.TAG, msg);
     }
 
     //启动相册

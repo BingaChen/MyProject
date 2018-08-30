@@ -7,12 +7,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.cqf.fenglib.R;
+import com.cqf.fenglib.utils.MyUtils;
 
 
 /**
- * Created by wpc on 2017/11/29 0029.
- * 布局中include R.layout.fragment_toolbar
- * settitle  setlefticon enableback
+ * you should include R.layout.cqf_title_layout into the xml.
  */
 
 public abstract class BaseToolbarActivity extends BaseActivity {
@@ -21,7 +20,7 @@ public abstract class BaseToolbarActivity extends BaseActivity {
     protected ImageView ivBack;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         rlBaseTile=findViewById(R.id.rlBaseTile);
         tvTitle=findViewById(R.id.tvTitle);
         tvRight=findViewById(R.id.tvRight);

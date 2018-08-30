@@ -15,21 +15,18 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import com.cqf.fenglib.Config;
 import com.cqf.fenglib.utils.MyActivityManager;
+import com.cqf.fenglib.utils.MyUtils;
 
+public abstract class BaseActivity extends AppCompatActivity {
 
-/**
- * Created by Administrator on 2017/4/15.
- */
-
-public class BaseActivity extends AppCompatActivity {
-
-    public String TAG = getClass().getSimpleName();
-    protected Context mContext;
+    protected Context context;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Config.TAG = getClass().getSimpleName();
         //打印当前活动界面
         Log.d("BaseActivity", getClass().getSimpleName());
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
@@ -43,8 +40,15 @@ public class BaseActivity extends AppCompatActivity {
 //            MyActivityManager.addActivity(this);
 //        }
         MyActivityManager.addActivity(this);
-        mContext = this;
+        context = this;
+        initView();
+        initData();
+        initListener();
     }
+
+    public abstract void initView();
+    public abstract void initData();
+    public abstract void initListener();
 
     @Override
     public Resources getResources() {
