@@ -16,8 +16,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.cqf.fenglib.Config;
+import com.cqf.fenglib.utils.LocalManageUtil;
 import com.cqf.fenglib.utils.MyActivityManager;
-import com.cqf.fenglib.utils.MyUtils;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
@@ -44,6 +44,11 @@ public abstract class BaseActivity extends AppCompatActivity {
         initView();
         initData();
         initListener();
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(LocalManageUtil.setLocal(newBase));
     }
 
     public abstract void initView();

@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
@@ -64,9 +65,20 @@ import static android.text.TextUtils.isEmpty;
 public class MyUtils {
 
     private static final int BUFFER_SIZE = 1024 * 1024;//1M Byte
+    public static Locale newLocale=new Locale("zh");
     private final static Pattern emailer = Pattern.compile("\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*");
     private static boolean isShow = false;
 
+    public static void initLocaleLanguage(Context context) {
+        Resources resources = context.getApplicationContext().getResources();
+        Configuration configuration = resources.getConfiguration();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            configuration.setLocale(newLocale);
+        } else {
+            configuration.locale = newLocale;
+        }
+        resources.updateConfiguration(configuration, resources.getDisplayMetrics());//更新配置
+    }
     //吐司
     public static void showToast(Context context, String msg) {
         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
