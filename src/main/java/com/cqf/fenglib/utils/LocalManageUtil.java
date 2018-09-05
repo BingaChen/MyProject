@@ -105,4 +105,5 @@ public class LocalManageUtil {
         setLocal(context);
         setApplicationLanguage(context);
     }
+
 }
