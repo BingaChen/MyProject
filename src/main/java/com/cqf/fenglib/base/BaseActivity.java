@@ -18,6 +18,7 @@ import android.widget.EditText;
 import com.cqf.fenglib.Config;
 import com.cqf.fenglib.utils.LocalManageUtil;
 import com.cqf.fenglib.utils.MyActivityManager;
+import com.cqf.fenglib.utils.MyUtils;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
@@ -46,6 +47,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         initListener();
     }
 
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(LocalManageUtil.setLocal(newBase));
@@ -63,7 +65,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         res.updateConfiguration(config, res.getDisplayMetrics());
         return res;
     }
-
+    protected boolean canDoubleClick=false;
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {
@@ -74,6 +76,9 @@ public abstract class BaseActivity extends AppCompatActivity {
             if (isShouldHideInput(v, ev)) {
                 hideSoftInput(v.getWindowToken());
             }
+            /*if (!canDoubleClick&&MyUtils.isFastDoubleClick()){
+                return true;
+            }*/
         }
 //        Bugtags.onDispatchTouchEvent(this, ev);
         return super.dispatchTouchEvent(ev);

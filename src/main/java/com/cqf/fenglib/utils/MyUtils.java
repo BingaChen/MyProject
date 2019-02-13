@@ -21,6 +21,7 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Environment;
+import android.os.SystemClock;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
@@ -68,6 +69,21 @@ public class MyUtils {
     public static Locale newLocale=new Locale("zh");
     private final static Pattern emailer = Pattern.compile("\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*");
     private static boolean isShow = false;
+    private final static int SPACE_TIME = 300;//2次点击的间隔时间，单位ms
+    private static long lastClickTime;
+
+    public static boolean isFastDoubleClick() {
+        long currentTime = SystemClock.elapsedRealtime();
+        boolean isClick;
+        if (currentTime - lastClickTime > SPACE_TIME) {
+            isClick = false;
+        } else {
+            isClick = true;
+        }
+        showMyLog("isFastClick:"+isClick);
+        lastClickTime = currentTime;
+        return isClick;
+    }
 
     public static void initLocaleLanguage(Context context) {
         Resources resources = context.getApplicationContext().getResources();
